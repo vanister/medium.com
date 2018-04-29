@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { withStyles } from 'material-ui/styles';
 
+import TitleBar from './containers/TitleBar.jsx';
 import Game from './containers/Game.jsx';
 
 const styles = (theme) => ({
@@ -17,7 +18,7 @@ const App = ({ classes }) => {
     <div>
       <div>
         <header>
-          <h2>Tic Tac Toe - Appbar/menu here...</h2>
+          <TitleBar />
         </header>
       </div>
       <div className={classes.content}>

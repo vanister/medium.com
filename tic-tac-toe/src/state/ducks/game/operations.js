@@ -19,10 +19,15 @@ import { isWinner, isDraw } from '../../utils/game';
  * Finally, do nothing if the above two conditions aren't met.
  * @param {number[][]} board The game board
  * @param {number} player The current player
+ * @returns {boolean} True, if there is a winner or a draw, false otherwise
  */
 const checkWinner = (board, player) => (dispatch) => {
   // the logic to check if a player has won or the game ended in a draw are in 
   // the utils/game.js file.
+
+  // instead of returning a promise like we would if we were making an api call
+  // from our operations, we just return a boolean for the game winner
+  let hasWinner = true;
 
   if (isWinner(board, player)) {
     dispatch(winner(player));
@@ -30,7 +35,11 @@ const checkWinner = (board, player) => (dispatch) => {
   } else if (isDraw(board)) {
     dispatch(winner(0));
     dispatch(gameover());
+  } else {
+    hasWinner = false;
   }
+
+  return hasWinner;
 };
 
 /**

@@ -197,8 +197,9 @@ describe('Game Duck', () => {
       const winnerAction = actions.winner(1);
       const gameoverAction = actions.gameover();
 
-      checkWinner(board, player)(dispatch);
+      const winner = checkWinner(board, player)(dispatch);
 
+      expect(winner).toBe(true);
       expect(dispatch).toHaveBeenCalledTimes(2);
       expect(dispatch.mock.calls[0][0]).toEqual(winnerAction);
       expect(dispatch.mock.calls[1][0]).toEqual(gameoverAction);
@@ -212,8 +213,9 @@ describe('Game Duck', () => {
       const winnerAction = actions.winner(0);
       const gameoverAction = actions.gameover();
 
-      checkWinner(board, player)(dispatch);
+      const winner = checkWinner(board, player)(dispatch);
 
+      expect(winner).toBe(true);
       expect(dispatch).toHaveBeenCalledTimes(2);
       expect(dispatch.mock.calls[0][0]).toEqual(winnerAction);
       expect(dispatch.mock.calls[1][0]).toEqual(gameoverAction);
@@ -224,8 +226,9 @@ describe('Game Duck', () => {
       const board = emptyBoard;
       const player = 1;
 
-      checkWinner(board, player)(dispatch);
+      const winner = checkWinner(board, player)(dispatch);
 
+      expect(winner).toBe(false);
       expect(dispatch).not.toHaveBeenCalled();
     });
 

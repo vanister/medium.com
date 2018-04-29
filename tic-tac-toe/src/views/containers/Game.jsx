@@ -7,13 +7,19 @@ import Grid from 'material-ui/Grid';
 import { gameOperations } from '../../state/ducks/game';
 
 import Board from '../components/Board.jsx';
+import PlayerInfo from '../components/PlayerInfo.jsx';
+import GameoverDialog from '../components/GameoverDialog.jsx';
 
 class Game extends Component {
   constructor(props, context) {
     super(props, context);
 
+    this.state = { showDialog: false };
+
     // binding 'this' to the handler so we can use 'this' to refer to props of this class
     this.handleBoardOnMove = this.handleBoardOnMove.bind(this);
+    this.handleDialogClick = this.handleDialogClick.bind(this);
+    this.handleDialogClose = this.handleDialogClose.bind(this);
   }
 
   handleBoardOnMove(square) {
@@ -31,26 +37,54 @@ class Game extends Component {
     // make a play for the player
     playTurn(player, row, col);
     // then check for a winner
-    checkWinner(board, player);
+    const hasWinner = checkWinner(board, player);
+
+    if (hasWinner) {
+      this.setState({ showDialog: true });
+    }
+  }
+
+  handleDialogClick(answer) {
+    // we only want to start a new game if the player clicks 'yes'
+    if (answer) {
+      this.props.newGame();
+    }
+
+    // we always want to close the dialog
+    this.setState({ showDialog: false });
+  }
+
+  handleDialogClose() {
+    // close the dialog    
+    this.setState({ showDialog: false });
   }
 
   render() {
-    const { board, player, gameover } = this.props;
+    const { showDialog } = this.state;
+    const { board, player, gameover, winner } = this.props;
+    const draw = winner === 0;
 
     return (
       // at extra-small (xs) size the grid show have two rows
       // at small (sm+) and above we want 2 columns
       // Grid 'item' in a container must have columns (xs, sm, md, etc.) that add up to 12, per grid docs:
       // https://material-ui-next.com/layout/grid/
-      <Grid container spacing={24}>
-        <Grid item xs={12} sm={6} md={4}>
-          <Board board={board} onMove={this.handleBoardOnMove} />
+      <div>
+        <Grid container spacing={24}>
+          <Grid item xs={12} sm={6} md={4}>
+            <Board board={board} onMove={this.handleBoardOnMove} />
+          </Grid>
+          <Grid item xs={12} sm={6} md={8}>
+            <PlayerInfo player={player} gameover={gameover} />
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={6} md={8}>
-          {!gameover && `Current player: ${player}`}
-          {gameover && 'Gameover!'}
-        </Grid>
-      </Grid>
+        <GameoverDialog
+          open={showDialog}
+          isDraw={draw}
+          player={winner}
+          onClick={this.handleDialogClick}
+          onClose={this.handleDialogClose} />
+      </div>
     );
   }
 }
@@ -63,9 +97,11 @@ const { arrayOf, number, func, bool } = PropTypes;
 Game.propTypes = {
   board: arrayOf(arrayOf(number)).isRequired,
   player: number.isRequired,
+  winner: number.isRequired,
   gameover: bool.isRequired,
   playTurn: func.isRequired,
-  checkWinner: func.isRequired
+  checkWinner: func.isRequired,
+  newGame: func.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -74,13 +110,15 @@ const mapStateToProps = (state) => {
   return {
     board: gameState.board,
     player: gameState.player,
-    gameover: gameState.gameover
+    gameover: gameState.gameover,
+    winner: gameState.winner
   };
 };
 
 const mapDispatchToProps = {
   playTurn: gameOperations.playTurn,
-  checkWinner: gameOperations.checkWinner
+  checkWinner: gameOperations.checkWinner,
+  newGame: gameOperations.newGame
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
