@@ -9,7 +9,8 @@
     "clean": "rimraf ./dist",
     "build": "yarn clean && webpack --config webpack.config.js --progress",
     "start": "webpack-dev-server --config webpack.config.js --open",
-    "test": "jest"
+    "test": "jest",
+    "surge": "yarn build && surge ./dist"
   },
   "dependencies": {
     "classnames": "^2.2.5",
