@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Button from 'material-ui/Button';
-import Dialog, {
+import Button from '@material-ui/core/Button';
+import {
+  Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
   withMobileDialog,
-} from 'material-ui/Dialog';
+} from '@material-ui/core';
 
 const GameoverDialog = ({ fullScreen, open, isDraw, player, onClick, onClose }) => {
   const title = isDraw ? 'Draw!' : `Player - ${player} wins!`;

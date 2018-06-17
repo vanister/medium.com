@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Drawer from 'material-ui/Drawer';
-import IconButton from 'material-ui/Button';
-import Icon from 'material-ui/Icon';
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import Drawer from '@material-ui/core/Drawer';
+import Icon from '@material-ui/core/Icon';
+import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 
 const Menu = ({ open, onItemClick, onClose }) => {
 
