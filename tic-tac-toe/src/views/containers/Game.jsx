@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Grid from 'material-ui/Grid';
+import Grid from '@material-ui/core/Grid';
 
 import { gameOperations } from '../../state/ducks/game';
 
@@ -70,7 +70,7 @@ class Game extends Component {
       // Grid 'item' in a container must have columns (xs, sm, md, etc.) that add up to 12, per grid docs:
       // https://material-ui-next.com/layout/grid/
       <div>
-        <Grid container spacing={16}>
+        <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={4}>
             <Board board={board} onMove={this.handleBoardOnMove} />
           </Grid>
