@@ -67,7 +67,7 @@ class TitleBar extends Component {
               onClick={this.handleMenuClick}>
               <Icon>menu</Icon>
             </IconButton>
-            <Typography variant="title" color="inherit">
+            <Typography variant="h5" color="inherit">
               Tic Tac Toe
           </Typography>
           </Toolbar>
